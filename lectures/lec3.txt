@@ -1,0 +1,75 @@
+missing semester - lecture 3: editors (VIM)
+https://missing.csail.mit.edu/2020/editors/
+
+
+modes:
+- normal: for moving around a file and making edits
+- insert: for inserting text
+- replace: for replacing text
+- visual (plain, line, or block): for selecting blocks of text
+- command-line: for running a command
+- keystrokes have different meanings in different modes
+
+basics
+- i: insert mode
+- buffers, windows, tabs
+    - buffers: a set of open files
+    - window: a viewport into a buffer
+    - tabs: a set of windows
+    - * a buffer can be open in multiple windows - this allows for multiple views of the same file
+- : command-line mode
+    - :q quit (close window)
+    - :w save (“write”)
+    - :wq save and quit
+    - :e {name of file} open file for editing
+    - :ls show open buffers
+    - :help {topic} open help
+    - :help :w opens help for the :w command
+    - :help w opens help for the w movement
+
+Vim's interface is a programming language
+- movement (normal mode)
+    - basic movement: hjkl (left, down, up, right)
+    - words: w (next word), b (beginning of word), e (end of word)
+    - lines: 0 (beginning of line), ^ (first non-blank character), $ (end of line)
+    - screen: H (top of screen), M (middle of screen), L (bottom of screen)
+    - scroll: Ctrl-u (up), Ctrl-d (down)
+    - file: gg (beginning of file), G (end of file)
+    - line numbers: :{number}<CR> or {number}G (line {number})
+    - misc: % (corresponding item)
+    - find: f{character}, t{character}, F{character}, T{character}
+        - find/to forward/backward {character} on the current line
+        - , / ; for navigating matches
+    - search: /{regex}, n / N for navigating matches
+- selection (visual mode)
+    - visual: v
+    - visual line: V
+    - visual block: Ctrl-v
+    - can use movement keys to make selection.
+- editing (normal mode)
+    - i enter Insert mode
+        - but for manipulating/deleting text, want to use something more than backspace
+    - o / O insert line below / above
+    - d{motion} delete {motion}
+        - e.g. dw is delete word, d$ is delete to end of line, d0 is delete to beginning of line
+    - c{motion} change {motion}
+        - e.g. cw is change word
+        - like d{motion} followed by i
+    - x delete character (equal to dl)
+    - s substitute character (equal to cl)
+    - visual mode + manipulation
+        - select text, d to delete it or c to change it
+    - u to undo, <C-r> to redo
+    - y to copy / “yank” (some other commands like d also copy)
+    - p to paste
+    - lots more to learn: e.g. ~ flips the case of a character
+- counts: you can use counts to repeat commands
+    - 3w move 3 words forward
+    - 5j move 5 lines down
+    - 7dw delete 7 words
+- modifier: you can use modifiers to modify commands
+    - i: inner or inside
+    - a: around
+    - ci( change the contents inside the current pair of parentheses
+    - ci[ change the contents inside the current pair of square brackets
+    - da' delete a single-quoted string, including the surrounding single quotes

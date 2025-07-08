@@ -1,1 +1,1 @@
-Lecture notes and exercises taken from "The Missing Semester of Your CS Education" by MIT CSAIL
+Lecture notes and exercises taken from "The Missing Semester of Your CS Education" by MIT CSAIL.

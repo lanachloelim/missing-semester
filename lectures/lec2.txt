@@ -1,4 +1,5 @@
-missing semester - lecture 2
+missing semester - lecture 2: shell tools and scripting
+https://missing.csail.mit.edu/2020/shell-tools/
 
 strings
 - ' and " mean different things for strings in bash
@@ -120,7 +121,3 @@ finding FILES
 finding CODE:
 - grep: most common command for matching patterns from input text
     - in future lectures
-
-
-        
-
