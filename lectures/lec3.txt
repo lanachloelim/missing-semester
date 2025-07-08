@@ -2,7 +2,7 @@ missing semester - lecture 3: editors (VIM)
 https://missing.csail.mit.edu/2020/editors/
 
 
-modes:
+modes
 - normal: for moving around a file and making edits
 - insert: for inserting text
 - replace: for replacing text
