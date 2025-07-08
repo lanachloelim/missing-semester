@@ -1,0 +1,126 @@
+missing semester - lecture 2
+
+strings
+- ' and " mean different things for strings in bash
+- ' is a literal string
+- " is a string that can be expanded with variables
+    foo=bar
+    echo "$foo"
+    # prints bar
+    echo '$foo'
+    # prints $foo
+
+example that creates a directory and cd's into it:
+mcd () {
+    mkdir -p "$1"
+    cd "$1"
+}
+- mcd foo # creates a directory called foo and cd's into it
+- pwd # prints the current directory
+
+special variables
+- $0: Name of the script
+- $1 to $9: Arguments to the script. $1 is the first argument and so on.
+- $@: All the arguments
+- $#: Number of arguments
+- $?: Return code of the previous command
+- $$: Process identification number (PID) for the current script
+- !!: Entire last command, including arguments. Use sudo !! to run the last command with permissions
+- $_: Last argument from the last command.
+
+command substitution
+- $(CMD): run command and pass output as variable
+- example:
+    for file in $(ls); do echo "file $file"; done
+- aside: process substitution
+    - >(CMD): run command and treat output as file
+    - <(CMD): run command and treat input as file
+- example:
+    echo "Starting program at $(date)" # Date will be substituted
+    echo "Running program $0 with $# arguments with pid $$"
+    for file in "$@"; do                                                # iterates over each argument
+        grep foobar "$file" > /dev/null 2> /dev/null  
+        # searches for the string "foobar" in the file and basically discards STDOUT (>) and STDERR (2>)                        
+        # when pattern is not found, grep has exit status 1
+        if [[ $? -ne 0 ]]; then                                         # if (previous_command_return_code != 0):  
+        # if [[]]: standard bash syntax for conditionals                                 
+        # $?: return code of previous command
+        # -ne: not equal to operator
+            echo "File $file does not have any foobar, adding one"
+            echo "# foobar" >> "$file"                                  # appends comment "# foobar" to end of file
+        fi                                                              # end if
+    done                                                                # end for loop
+
+shell gobbling: allows you to use wildcard characters to match file and directory names
+- *: matches any number of characters, including none
+    - *.txt # matches any file that ends with .txt
+- ?: matches any single character
+    - file?.txt # matches file1.txt but not file10.txt
+- {}: matches any word in the set
+    - *.{png,jpg,gif} # matches all files that end with .png, .jpg, or .gif
+    - {a..h} # matches a, b, c, d, e, f, g, h
+- [seq]: matches any character in seq
+    - [0-9] # matches any digit
+    - [a-z] # matches any lowercase letter
+    - [A-Z] # matches any uppercase letter
+    - [a-zA-Z0-9] # matches any letter or digit
+    - [^seq] # matches any character not in seq
+    - [^0-9] # matches any character that is not a digit
+    - [^a-z] # matches any character that is not a lowercase letter
+    - [^A-Z] # matches any character that is not an uppercase letter
+    - [^a-zA-Z0-9] # matches any character that is not a letter or digit
+
+shebang line: tells the shell what interpreter to use to run the script
+- #!/bin/bash
+- #!/usr/local/bin/python: we can run .sh script that has python code in it
+- differences between (shell) functions and scripts:
+    functions:
+    - must be in the same language as shell
+    - functions are loaded once their definition is read (+ faster, - reload to make changes)
+    - functions execute in the current shell
+    scripts:
+    - can be in any language
+    - scripts are loaded every time they run
+    - scripts execute in a subshell, a separate process (- no access to variables in the current shell, PBR)
+
+manpages
+- man CMD, CMD --help/--h
+
+finding FILES
+- find command:
+    # Find all directories named src
+    find . -name src -type d
+
+    # Find all python files that have a folder named test in their path
+    find . -path '*/test/*.py' -type f
+
+    # Find all files modified in the last day
+    find . -mtime -1
+
+    # Find all zip files with size in range 500k to 10M
+    find . -size +500k -size -10M -name '*.tar.gz'
+
+    # Delete all files with .tmp extension
+    find . -name '*.tmp' -exec rm {} \;         
+    - find has an -exec option that allows you to run a command on each file
+    - {} is a placeholder for the file name
+    - \; is end of command
+
+    # Find all PNG files and convert them to JPG
+    find . -name '*.png' -exec magick {} {}.jpg \;
+- find syntax is tricky
+    - to find files that match PATTERN: find -name '*PATTERN*' (or -iname for case-insensitive)
+- alternatives to find: 
+    - fd 
+        - user friendly
+        - just do fd PATTERN 
+    - locate
+        - just locates file names
+
+finding CODE:
+- grep: most common command for matching patterns from input text
+    - in future lectures
+
+
+        
+
